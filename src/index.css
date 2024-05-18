@@ -17,3 +17,20 @@ body {
   overflow-x: hidden;
   border: #ffffff22;
 }
+
+.songlistparent::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
+  border-radius: 5px;
+  background-color: transparent;
+}
+
+.songlistparent::-webkit-scrollbar {
+  width: 5px;
+  background-color: transparent;
+}
+
+.songlistparent::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
+  background-color: #5c5c5c;
+}
