@@ -2,7 +2,11 @@ import { FastForward, Pause, Play, Volume2 } from 'lucide-react';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AudioPlayer from './AudioPlayer';
-import { setCurrentSongPlay } from '../redux/features/playerSlice';
+import {
+  setCurrentSongPlay,
+  setCurrentTime
+} from '../redux/features/playerSlice';
+import AudioProgress from './AudioProgress';
 
 const SongPlay = () => {
   const data = useSelector((state) => state.player);
@@ -16,7 +20,7 @@ const SongPlay = () => {
   const string = data.isReady ? 'visible' : 'invisible';
 
   return (
-    <div className={`w-[450px] ${string}`}>
+    <div className={`w-[450px] ${string} mb-10 md:mb-0`}>
       <div className='w-full'>
         <h1 className='text-white font-bold text-[32px]'>{data.title}</h1>
         <p className='text-copylight'>{data.album}</p>
@@ -28,7 +32,21 @@ const SongPlay = () => {
       />
 
       <div className='mt-5'>
-        <span className='inline-block h-1 w-full bg-white rounded-full' />
+        {/* Audio Progress bar */}
+        <AudioProgress
+          duration={duration}
+          currentProgress={data.currentProgress}
+          buffered={0} // You can update this if you have buffered data
+          onChange={(e) => {
+            const newTime = e.target.value;
+            // console.log(newTime);
+            dispatch(setCurrentTime(e.target.valu));
+            const audioElement = document.getElementById('musice');
+            // setDuration(newTime);
+            audioElement.currentTime = newTime;
+          }}
+        />
+
         <div className='mt-5 flex justify-between items-center'>
           <div className='flex gap-1 rounded-full p-2 items-center justify-center bg-foreground w-10 h-10'>
             <span className='inline-block h-[5px] w-[5px] rounded-full bg-white'></span>
@@ -45,9 +63,9 @@ const SongPlay = () => {
             >
               {' '}
               {data.isPlaying ? (
-                <Play fill='#fff' stroke='#fff' size={16} />
-              ) : (
                 <Pause fill='#fff' stroke='#fff' size={16} />
+              ) : (
+                <Play fill='#fff' stroke='#fff' size={16} />
               )}
               {/* <Play fill='#fff' stroke='#fff' size={16} /> */}
             </span>

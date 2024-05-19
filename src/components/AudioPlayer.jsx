@@ -2,7 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setCurrentSongPlay,
-  setCurrentSongReady
+  setCurrentSongReady,
+  setCurrentTime
 } from '../redux/features/playerSlice';
 
 const AudioPlayer = ({ setDuration }) => {
@@ -24,6 +25,7 @@ const AudioPlayer = ({ setDuration }) => {
     if (currentSong.isPlaying) {
       console.log(currentSong.isPlaying, currentSong.isReady);
       audioRef.current?.play().catch((error) => {
+        dispatch(setCurrentSongPlay(false));
         console.error('Failed to play:', error);
       });
     } else {
@@ -40,6 +42,10 @@ const AudioPlayer = ({ setDuration }) => {
         id='musice'
         preload='metadata'
         onDurationChange={(e) => setDuration(e.currentTarget.duration)}
+        onTimeUpdate={(e) => {
+          dispatch(setCurrentTime(e.currentTarget.currentTime));
+        }}
+        // onProgress={handleBufferProgress}
         onPlaying={() => songPlayHandler(true)}
         onPause={() => songPlayHandler(false)}
       >

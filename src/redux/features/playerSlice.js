@@ -7,7 +7,9 @@ const initialState = {
   title: '',
   album: '',
   img: '',
-  isReady: null
+  isReady: null,
+  currentProgress: 0,
+  duration: 0
 };
 
 const playerSlice = createSlice({
@@ -22,16 +24,33 @@ const playerSlice = createSlice({
       state.album = action.payload.album;
       state.img = action.payload.img;
       state.isReady = action.payload.isReady;
+      state.duration = action.payload.duration;
     },
     setCurrentSongPlay(state, action) {
       state.isPlaying = action.payload;
     },
+    setStopPlay(state, action) {
+      state.isPlaying = action.payload;
+    },
     setCurrentSongReady(state, action) {
       state.isReady = action.payload;
+      state.isPlaying = true;
+    },
+    setCurrentTime(state, action) {
+      state.currentProgress = action.payload;
+    },
+    setDuration(state, action) {
+      state.duration = action.payload;
     }
   }
 });
 
-export const { setCurrentSong, setCurrentSongPlay, setCurrentSongReady } =
-  playerSlice.actions;
+export const {
+  setCurrentSong,
+  setCurrentSongPlay,
+  setCurrentSongReady,
+  setCurrentTime,
+  setDuration,
+  setStopPlay
+} = playerSlice.actions;
 export default playerSlice.reducer;
